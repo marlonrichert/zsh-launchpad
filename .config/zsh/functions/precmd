@@ -1,0 +1,34 @@
+#!/bin/zsh
+# Fetch version control info before each new command line.
+autoload -Uz vcs_info
+
+precmd() {
+  # Use an asynchronous process, to avoid slowdown in large repos.
+  local -i fd=-1
+  exec {fd}< <(
+    vcs_info
+    print -r -- $vcs_info_msg_0_
+  )
+  zle -Fw "$fd" .vcs-info-handler  # Register callback widget.
+}
+
+zle -N .vcs-info-handler  # Create a widget that calls the function below.
+.vcs-info-handler() {
+  local -i fd=$1
+  local REPLY
+  {
+    zle -F "$fd"  # Unhook the callback.
+    read -ru$fd
+
+    [[ $RPS1 == $REPLY ]] && return   # Don't repaint if there's no change.
+
+    RPS1=$REPLY
+
+    # Repaint only if $RPS1 is actually visible.
+    [[ $CONTEXT == start ]] && zle .reset-prompt
+  } always {
+    exec {fd}<&-  # Close the file descriptor.
+  }
+}
+
+precmd "$@"

@@ -1,0 +1,20 @@
+#!/bin/zsh
+# Example function that extracts all images from an XML/HTML file.
+
+# Reset script-relevant options to default, plus EXTENDED_GLOB.
+emulate -L zsh -o extendedglob
+
+# Split the file's contents on delimiters.
+# local sets the scope of the variable to this function and its descendendants.
+# +h preserves the "specialness" of $IFS for our local version of it.
+local +h IFS='<>"()'
+reply=( ${="$( < $1 )"} )
+
+# For each string, keep only the longest substring that starts at the beginning
+# of the string and ends with .gif, .jpg, .png or .svg.
+# If there is no such substring, discard the entire string.
+reply=( ${(M)reply[@]##*.(gif|jpg|png|svg)} )
+
+# For each string, remove all spaces from the beginning of the string.
+# Then, discard all duplicates and sort case-insensitively.
+reply=( ${(ui)reply[@]## #} )
