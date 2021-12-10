@@ -10,7 +10,7 @@
 HISTFILE=${XDG_DATA_HOME:=~/.local/share}/zsh/history
 # Tip: On macOS, you might want to store it in your iCloud dir instead.
 
-# If the parent directory doesn't exist, create it (just in case).
+# Just in case: If the parent directory doesn't exist, create it.
 [[ -d $HISTFILE:h ]] || mkdir -p $HISTFILE:h
 
 # Max number of entries to keep in history file.

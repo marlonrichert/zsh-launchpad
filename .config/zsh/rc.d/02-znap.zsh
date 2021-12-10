@@ -7,7 +7,7 @@
 znap=$gitdir/zsh-snap/znap.zsh
 
 # Auto-install Znap if it's not there yet.
-if ! [[ -r $znap ]]; then
+if ! [[ -r $znap ]]; then # Checks if the file can be read.
   mkdir -p $gitdir
   git -C $gitdir clone --depth 1 -- \
       https://github.com/marlonrichert/zsh-snap.git

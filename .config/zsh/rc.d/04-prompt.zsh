@@ -11,6 +11,8 @@
 # %(?,<a>,<b>):  If last exit status was 0, then <a>, else <b>
 # https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
 
+
+# These variables try to make the code below a bit easier to read.
 brightred=9 brightgreen=10 brightyellow=11 brightblue=12
 
 
@@ -20,6 +22,13 @@ brightred=9 brightgreen=10 brightyellow=11 brightblue=12
 
 PS1="%F{%(?,$brightgreen,$brightred)}%#%f "
 
+# Strings in "double quotes" are what is in some languages called "template
+# strings": They allow the use of parameter $expansions inside, which are then
+# substituted with the parameters' values.
+# Strings in 'single quotes', on the other hand, are literal strings. They
+# always evaluate to the literal characters you see on your screen.
+
+
 # Instead of printing the current dir in each prompt, print it only when when
 # we change dirs, by using a hook function.
 # https://zsh.sourceforge.io/Doc/Release/Functions.html#Hook-Functions
@@ -28,13 +37,16 @@ chpwd() {
   zle -I  # Prepare the line editor for our output.
 
   # -P flag parses prompt escape codes.
-  local brightblue=12
-  print -P "\n%F{$brightblue}%~%f"
+  print -P "\n%F{12}%~%f" # 12 is bright blue
 }
 chpwd  # Call once before the first prompt.
 
+# Calling `zle -I` lets the Zsh Line Editor ensure that our prompt and command
+# line look visually correct both before and after printing our output.
+
+
 # Reduce startup time by making the left side of the primary prompt visible
-# immediately.
+# *immediately.*
 znap prompt
 
 
@@ -45,6 +57,15 @@ znap prompt
 # Load our precmd() hook function from file.
 # https://zsh.sourceforge.io/Doc/Release/Functions.html#Hook-Functions
 autoload -Uz precmd
+
+# Autoloading the precmd function is possible here, because in 03-env.zsh, we
+# add the dir containing it to our $fpath.
+# We could've just defined the precmd() function in here, but it's a bit
+# longish and this demonstrates how you can autoload functions.
+# -U tells autoload not to expand aliases inside the function.
+# -z tells autoload that the function file is written in the default Zsh style.
+# The latter is normally not necessary, but better safe than sorry.
+
 
 # Format the output of vcs_info, which our precmd uses to set $RPS1.
 #     %a: current action (for example, rebase)
@@ -60,8 +81,24 @@ autoload -Uz precmd
   "$@"  check-for-changes yes                   # Enable %c and %u.
 } zstyle ':vcs_info:*'
 
-setopt TRANSIENT_RPROMPT  # Auto-remove the right side of each prompt.
-ZLE_RPROMPT_INDENT=0      # Right prompt margin
+# The above construct is what Zsh calls an anonymous function; most other
+# languages call this a lambda function. It gets called right away and is then
+# discarded.
+# Here, we use it to not have to repeat `zstyle ':vcs_info:*'` five times.
 
 
-unset -m 'bright*'  # Discard all variables starting with 'bright'.
+# Auto-remove the right side of the prompt when you press enter.
+# That way, we'll have less clutter on screen.
+# It also makes it easier to copy code from our terminal.
+setopt TRANSIENT_RPROMPT
+
+ZLE_RPROMPT_INDENT=0  # Outer margin of the right side of the prompt
+
+
+# Discard all variables starting with 'bright'.
+unset -m bright\*
+
+# -m tells unset to use pattern matching.
+# We need to escape the wildcard in our pattern or Zsh will automatically
+# substitute the pattern with matching file names.
+# Alternatively, we could've added `noglob` before our command.

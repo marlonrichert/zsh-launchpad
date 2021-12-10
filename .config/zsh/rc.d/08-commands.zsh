@@ -12,8 +12,15 @@ alias zmv='zmv -Mv'
 alias zcp='zmv -Cv'
 alias zln='zmv -Lv'
 
+# Note that, unlike Bash, there's no need to inform Zsh's completion system
+# of your aliases. It will figure them out automatically.
 
-: ${PAGER:=less}  # Set $PAGER if it hasn't been set yet.
+
+# Set $PAGER if it hasn't been set yet. We need it below.
+: ${PAGER:=less}
+
+# `:` is a builtin command that does nothing. We use it here to stop Zsh from
+# evaluating the value of our $expansion as a command.
 
 
 # Associate file.extensions with programs.

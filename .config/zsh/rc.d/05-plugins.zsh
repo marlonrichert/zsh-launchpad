@@ -16,8 +16,11 @@ znap clone $plugins
 for p in $plugins; do
   znap source $p
 done
+
 unset p plugins
+
+
+znap eval zcolors zcolors   # Extra init code needed for zcolors.
 
 # `znap eval <name> '<command>'` is like `eval "$( <command> )"` but with
 # caching and compilation of <command>'s output, making it 10 times faster.
-znap eval zcolors zcolors   # Extra init code needed for zcolors.
