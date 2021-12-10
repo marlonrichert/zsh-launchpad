@@ -4,7 +4,7 @@
 # Environment variables
 #
 
-# -U ensures each entry in these is unique (that is, eliminates duplicates).
+# -U ensures each entry in these is Unique (that is, discards duplicates).
 export -U PATH path FPATH fpath MANPATH manpath
 export -UT INFOPATH infopath  # -T creates a "tied" pair; see below.
 

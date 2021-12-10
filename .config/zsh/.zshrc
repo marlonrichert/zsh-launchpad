@@ -5,12 +5,19 @@
 
 gitdir=~/Git  # The dir where you (want to) keep your repos and plugins
 
-for file in $ZDOTDIR/rc.d/<->-*.zsh; do
+# Load all of the files in rc.d that start with <number>- and end in .zsh
+# <-> is an open-ended range. It matches any non-negative integer.
+# (n) sorts the results in numerical order.
+for file in $ZDOTDIR/rc.d/<->-*.zsh(n); do
   . $file
 done
-unset file gitdir
 
-# <-> is an open-ended range. It matches any non-negative integer.
 # <1-> matches any integer >= 1.
 # <-9> matches any integer <= 9.
 # <1-9> matches any integer that's >= 1 and <= 9.
+
+
+# Assigning a variable implicitly declares it as global. That's fine for
+# startup scripts, but we don't want these leaking to the command line. So,
+# discard them here.
+unset file gitdir
