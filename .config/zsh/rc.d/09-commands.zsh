@@ -3,6 +3,8 @@
 ##
 # Commands, funtions and aliases
 #
+# Always set aliases _last,_ so they don't class with function definitions.
+#
 
 
 # These aliases enable us to paste example code into the terminal without the

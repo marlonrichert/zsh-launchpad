@@ -4,7 +4,7 @@
 # Plugin manager
 #
 
-znap=$gitdir/zsh-snap/znap.zsh
+local znap=$gitdir/zsh-snap/znap.zsh
 
 # Auto-install Znap if it's not there yet.
 if ! [[ -r $znap ]]; then   # Check if the file exists and can be read.
@@ -14,4 +14,3 @@ if ! [[ -r $znap ]]; then   # Check if the file exists and can be read.
 fi
 
 . $znap     # Load Znap.
-unset znap  # Discard the variable.

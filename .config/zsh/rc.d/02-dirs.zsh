@@ -3,6 +3,8 @@
 ##
 # Named directories
 #
+# Set these early, because it affects how dirs are displayed and printed.
+#
 
 # Create shortcuts for your favorite directories.
 # `hash -d <name>=<path>` makes ~<name> a shortcut for <path>.
@@ -12,8 +14,8 @@ hash -d g=$gitdir
 
 
 # Change dirs without `cd`. Just type the dir and press enter.
-setopt AUTO_CD
-
 # Note: This will misfire if there is an alias, function, builtin or command
 # with the same name!
-# To be safe, use autocd only with paths starting with ~, .. or /
+# To be safe, use autocd only with paths starting with ~ (including named
+# directories), .. or /
+setopt AUTO_CD

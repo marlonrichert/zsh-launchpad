@@ -5,7 +5,6 @@
 emulate -L zsh -o extendedglob
 
 # Declare which field separators to use for ${=...}, below.
-# local sets the scope of the variable to this function and its descendendants.
 # +h preserves the "specialness" of $IFS for our local version of it.
 local +h IFS='<>"()'
 

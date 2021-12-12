@@ -4,13 +4,14 @@
 
 # Add the plugins you want to use here.
 # For more info each plugin, visit its repo on github.com/<plugin>
-plugins=(
-  marlonrichert/zsh-autocomplete      # Real-time type-ahead completion
-  marlonrichert/zsh-edit              # Better keyboard shortcuts
-  marlonrichert/zsh-hist              # Edit history from the command line.
-  marlonrichert/zcolors               # Colors for completions and Git
-  zsh-users/zsh-autosuggestions       # Inline suggestions
-  zsh-users/zsh-syntax-highlighting   # Command-line syntax highlighting
+# -a sets the variable's type to array.
+local -a plugins=(
+    marlonrichert/zsh-autocomplete      # Real-time type-ahead completion
+    marlonrichert/zsh-edit              # Better keyboard shortcuts
+    marlonrichert/zsh-hist              # Edit history from the command line.
+    marlonrichert/zcolors               # Colors for completions and Git
+    zsh-users/zsh-autosuggestions       # Inline suggestions
+    zsh-users/zsh-syntax-highlighting   # Command-line syntax highlighting
 )
 
 # zsh-autocomplete sends *a lot* of characters to your terminal. This is fine
@@ -29,11 +30,10 @@ plugins=(
 znap clone $plugins
 
 # Load each plugin, one at a time.
+local p=
 for p in $plugins; do
   znap source $p
 done
-
-unset p plugins
 
 # `znap eval <name> '<command>'` is like `eval "$( <command> )"` but with
 # caching and compilation of <command>'s output, making it ~10 times faster.
