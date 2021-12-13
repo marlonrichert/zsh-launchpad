@@ -35,8 +35,8 @@ unsetopt FLOW_CONTROL
   unalias $1 2> /dev/null   # Remove the default.
 
   # Load the more advanced version.
-  # +X loads the function immediately, so we can access the source dir.
-  autoload -Uz +X $1
+  # -R resolves the function immediately, so we can access the source dir.
+  autoload -UzR $1
 
   # Load the hash table that maps each function to its source file.
   zmodload -F zsh/parameter p:functions_source
