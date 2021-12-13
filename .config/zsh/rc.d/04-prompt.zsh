@@ -76,7 +76,6 @@ autoload -Uz precmd
 #     %b: branch
 # https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#vcs_005finfo-Configuration
 () {
-  # "$@" expands to all arguments that were passed to a function or script.
   "$@"           formats                     "%c%u%F{$brightcyan}%b%f"
   "$@"     actionformats    "%F{$brightred}%a %c%u%F{$brightcyan}%b%f"
   "$@"         stagedstr    "%F{$brightblue}+"  # Set %c.
