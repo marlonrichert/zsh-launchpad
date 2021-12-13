@@ -1,27 +1,55 @@
 #!/bin/zsh
 # Example function that extracts all images from an XML/HTML file.
+#
+# Usage:
+#   autoload -Uz extract-images
+#   local -a reply=()
+#   extract-images <file>
+#   print -c -- $reply
+#
 
-# Reset script-relevant options to default, but set EXTENDED_GLOB.
+# `emulate zsh` resets script-relevant options to default zsh.
+# `-L` makes this effect local to this function and its descendants.
+# `-o extendedglob` sets the shell option EXTENDED_GLOB. This gives us access
+# to additional pattern matching constructs needed below.
 emulate -L zsh -o extendedglob
+
+# Note: `emulate bash` does not work as expected, because `emulate` does not
+# know 'bash'. Instead, because 'bash' end in 'sh', it will activate `sh`
+# emulation instead! If you need `bash` compatibility, try `emulate ksh`.
 
 # Declare which field separators to use for ${=...}, below.
 # +h preserves the "specialness" of $IFS for our local version of it.
 local +h IFS='<>"()'
 
-# < $1 Load the contents of file $1 and $( ... ) expand it to a string, "..."
-# ensuring all whitespace, incl. newlines, is kept as is, then ${=...} split
-# it on the given separators and `reply=( ... )` place the resulting strings
-# into an array.
+# Like any other shell command, a function cannot explicitly return anything
+# else than an integer, called the exit status, where 0 means success and other
+# values mean different kinds of failure.
+# For other return values, the convention is to use $REPLY or $reply.
+# To return a single value, assign it to the $REPLY scalar.
+# To return multiple values, assign them to $reply array.
+# The functions needs only assign these variables; declaring them and
+# defining their scope is the caller's responsibility.
+
+# < $1 redirects the contents of file $1 to standard output.
+# $( ... ) captures the standard output in a string.
+# "..." ensures all whitespace inside, incl. newlines, is kept as is.
+# ${=...} splits the string on $IFS.
+# reply=( ... ) places the resulting strings into array $reply.
 reply=( ${="$( < $1 )"} )
 
 # [@] For each string, (M) keep ## only the longest substring that starts at
 # the beginning of the string and `*.(gif|jpg|png|svg)` ends with .gif, .jpg,
 # .png or .svg. If there is no such substring, discard the entire string (since
 # we did not wrap the expression in "double quotes").
-reply=( ${(M)reply[@]##*.(gif|jpg|png|svg)} )
 # (M) stands for "Match".
+reply=( ${(M)reply[@]##*.(gif|jpg|png|svg)} )
 
 # [@] For each string, remove ` #` all spaces ## from the beginning of the
 # string. Then, (u) discard all duplicates and (i) sort case-insensitively.
-reply=( ${(ui)reply[@]## #} )
 # (u) stands for "unique". (i) stands for "insensitive".
+reply=( ${(ui)reply[@]## #} )
+
+# Return 0 (true/success) if $reply is not empty.
+# A function always returns the same exit status as its last command.
+(( $#reply ))
