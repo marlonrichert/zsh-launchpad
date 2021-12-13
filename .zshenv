@@ -6,6 +6,10 @@
 # So, put as little in this file as possible, to avoid performance impact.
 #
 
+# Note: The shebang #!/bin/zsh is strictly necessary for executable scripts
+# only, but without it, you might not always get correct syntax highlighting
+# when viewing the code.
+
 # Tell zsh where to look for our dotfiles.
 # By default, Zsh will look for dotfiles in $HOME (and find this file), but
 # once $ZDOTDIR is defined, it will start looking in that dir instead.
