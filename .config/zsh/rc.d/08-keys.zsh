@@ -3,28 +3,10 @@
 ##
 # Key bindings
 #
-# Anywhere:
-#     Enter  -- Accept command line.
-#
-# On the command line:
-#        Tab -- Insert top completion.
-#  Shift-Tab -- Insert bottom completion.
-#       Down -- Enter completion menu to select another completion.
-#         Up -- Open history menu.
-#     Ctrl-R -- Toggle between completion and history search.
-#
-# In any menu:
-# Arrow Keys -- Change selection.
-#        Tab -- Accept selection and return to command line.
-#
-# In the completion menu:
-#     Ctrl-S -- Start full-text search.
-#
-# In full-text search:
-#     Ctrl-S -- Go to next match.
-#     Ctrl-R -- Go to previous match
-#        Tab -- Exit search and return to completion menu.
-# Arrow Keys -- Exit search and return to completion menu.
+# zsh-autocomplete and zsh-edit add many useful keybindings. See each of their
+# respective docs for the full list:
+# https://github.com/marlonrichert/zsh-autocomplete/blob/main/README.md#key-bindings
+# https://github.com/marlonrichert/zsh-edit/blob/main/README.md#key-bindings
 #
 
 # Enable the use of Ctrl-Q and Ctrl-S for keyboard shortcuts.
