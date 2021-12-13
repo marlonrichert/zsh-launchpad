@@ -7,8 +7,12 @@
 #
 
 # Tell zsh where to store history.
-HISTFILE=${XDG_DATA_HOME:=~/.local/share}/zsh/history
-# Tip: On macOS, you might want to store it in your iCloud dir instead.
+if [[ $VENDOR == apple ]]; then
+  # On macOS, store it in iCloud, so it syncs across multiple Macs.
+  HISTFILE=~/Library/Mobile\ Documents/com\~apple\~CloudDocs/zsh_history
+else
+  HISTFILE=${XDG_DATA_HOME:=~/.local/share}/zsh/history
+fi
 
 # Just in case: If the parent directory doesn't exist, create it.
 [[ -d $HISTFILE:h ]] || mkdir -p $HISTFILE:h
