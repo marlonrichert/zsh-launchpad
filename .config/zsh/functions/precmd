@@ -40,4 +40,18 @@ zle -N .vcs-info-handler  # Create a widget that calls the function below.
   }
 }
 
+# Format the output of vcs_info, which our precmd uses to set $RPS1.
+#     %a: current action (for example, rebase)
+#     %c:   staged changes
+#     %u: unstaged changes
+#     %b: branch
+# https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#vcs_005finfo-Configuration
+() {
+  "$@"           formats          "%c%u%F{14}%b%f"  # 14 is bright cyan.
+  "$@"     actionformats  "%F{9}%a %c%u%F{14}%b%f"  #  9 is bright red.
+  "$@"         stagedstr  "%F{10}+"   # Set %c.       10 is bright green.
+  "$@"       unstagedstr  "%F{11}*"   # Set %u.       11 is bright yellow.
+  "$@"  check-for-changes yes         # Enable %c and %u.
+} zstyle ':vcs_info:*'
+
 precmd "$@"
