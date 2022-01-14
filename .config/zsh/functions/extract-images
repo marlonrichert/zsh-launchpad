@@ -8,6 +8,16 @@
 #   print -c -- $reply
 #
 
+# Like any other shell command, a function cannot explicitly return anything
+# else than an integer (called the exit status), where 0 means success and
+# other values mean different kinds of failure.
+# For other return values, the convention is to use $REPLY or $reply.
+# To return a single value, assign it to the $REPLY scalar.
+# To return multiple values, assign them to $reply array.
+# A functions needs to only _assign_ these variables; declaring them and
+# defining their scope is the caller's responsibility.
+
+
 # `emulate zsh` resets script-relevant options to default zsh.
 # `-L` makes this effect local to this function and its descendants.
 # `-o extendedglob` sets the shell option EXTENDED_GLOB. This gives us access
@@ -21,15 +31,6 @@ emulate -L zsh -o extendedglob
 # Declare which field separators to use for ${=...}, below.
 # +h preserves the "specialness" of $IFS for our local version of it.
 local +h IFS='<>"()'
-
-# Like any other shell command, a function cannot explicitly return anything
-# else than an integer, called the exit status, where 0 means success and other
-# values mean different kinds of failure.
-# For other return values, the convention is to use $REPLY or $reply.
-# To return a single value, assign it to the $REPLY scalar.
-# To return multiple values, assign them to $reply array.
-# The functions needs only assign these variables; declaring them and
-# defining their scope is the caller's responsibility.
 
 # < $1 redirects the contents of file $1 to standard output.
 # $( ... ) captures the standard output in a string.

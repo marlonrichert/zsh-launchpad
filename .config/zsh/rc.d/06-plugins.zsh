@@ -3,7 +3,7 @@
 #
 
 # Add the plugins you want to use here.
-# For more info each plugin, visit its repo on github.com/<plugin>
+# For more info on each plugin, visit its repo at github.com/<plugin>
 # -a sets the variable's type to array.
 local -a plugins=(
     marlonrichert/zsh-autocomplete      # Real-time type-ahead completion
@@ -14,15 +14,15 @@ local -a plugins=(
     zsh-users/zsh-syntax-highlighting   # Command-line syntax highlighting
 )
 
-# zsh-autocomplete sends *a lot* of characters to your terminal. This is fine
-# locally on modern machines, but if you're working through a slow ssh
-# connection, you might want to add a slight delay before the autocompletion
-# kicks in:
-# zstyle ':autocomplete:*' min-delay 1.0  # seconds
+# The Zsh Autocomplete plugin sends *a lot* of characters to your terminal.
+# This is fine locally on modern machines, but if you're working through a slow
+# ssh connection, you might want to add a slight delay before the
+# autocompletion kicks in:
+#   zstyle ':autocomplete:*' min-delay 0.5  # seconds
 #
 # If your connection is VERY slow, then you might want to disable
 # autocompletion completely and use only tab completion instead:
-# zstyle ':autocomplete:*' async no
+#   zstyle ':autocomplete:*' async no
 
 
 # Speed up the first startup by cloning all plugins in parallel.

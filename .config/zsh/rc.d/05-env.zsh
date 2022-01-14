@@ -13,7 +13,7 @@ export -UT INFOPATH infopath  # -T creates a "tied" pair; see below.
 # Note that each value in an array is expanded separately. Thus, we can use ~
 # for $HOME in each $path entry.
 path=(
-    /home/linuxbrew/.linuxbrew/bin(N)	# (N): null if file doesn't exist
+    /home/linuxbrew/.linuxbrew/bin(N)   # (N): null if file doesn't exist
     $path
     ~/.local/bin
 )

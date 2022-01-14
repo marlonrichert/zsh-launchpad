@@ -14,8 +14,8 @@ hash -d g=$gitdir
 
 
 # Change dirs without `cd`. Just type the dir and press enter.
-# Note: This will misfire if there is an alias, function, builtin or command
+# NOTE: This will misfire if there is an alias, function, builtin or command
 # with the same name!
-# To be safe, use autocd only with paths starting with ~ (including named
-# directories), .. or /
+# To be safe, use autocd only with paths starting with .. or / or ~ (including
+# named directories).
 setopt AUTO_CD
