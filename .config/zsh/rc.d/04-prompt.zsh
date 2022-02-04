@@ -40,7 +40,7 @@ chpwd  # Call once before the first prompt.
 
 # Reduce startup time by making the left side of the primary prompt visible
 # *immediately.*
-# znap prompt
+znap prompt
 
 # Auto-remove the right side of the prompt when you press enter.
 # That way, we'll have less clutter on screen.
