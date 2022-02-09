@@ -31,10 +31,7 @@ PS1="%F{%(?,10,9)}%#%f "  # 10 is bright green; 9 is bright red.
 # The latter is normally not necessary, but better safe than sorry.
 autoload -Uz chpwd precmd
 # We can autoload these functions by just their name, rather than by path,
-# because in 05-env.zsh, we will add their parent dir to our $fpath.
-# Note that the path to a function marked for autoloading is looked up only
-# once the function actually gets called. So, it does not matter that our
-# functions dir is not yet in our $fpath at this point.
+# because in 04-env.zsh, we added their parent dir to our $fpath.
 
 chpwd  # Call once before the first prompt.
 
