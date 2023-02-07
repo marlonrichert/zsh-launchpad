@@ -1,5 +1,6 @@
 # Z Shell Launchpad 🚀
-A simple dotfiles template to kick-start/bootstrap your `zsh` config
+A simple dotfiles template to kick-start/bootstrap your `zsh` config and start
+learning how to get the most out of your shell.
 
 Copy these files into your home dir and you're good to go!
 
@@ -34,13 +35,13 @@ these boxes. Oh-My-Zsh and other “frameworks” cater to those who strongly wa
 the former, but don't give you any of the latter. Zsh itself also fails in this
 regard. On one end, its [new user
 wizard](https://github.com/zsh-users/zsh/blob/master/Functions/Newuser/zsh-newuser-install)
-_tries_ to give you the former, but rather than give you decent defaults, it
+_tries_ to give you the former, but, rather than give you decent defaults,
 forces you to choose from a wide array of confusing options and leaves you with
 a poorly-documented config full of magic values. On the other end, its [_An
 Introduction to the Z
 Shell_](https://zsh.sourceforge.io/Intro/intro_toc.html) _tries_ to give you
 the latter, but rather than being hands-on, presents you with endless lists of
-abstract examples with no clear practical use and hasn't been updated since
+abstract examples without clear, practical uses and hasn't been updated since
 1995.
 
 There is clearly a gap in the offerings for new Zsh users. This template is for

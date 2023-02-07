@@ -46,5 +46,6 @@ alias -s {css,gradle,html,js,json,md,patch,properties,txt,xml,yml}=$PAGER
 alias -s gz='gzip -l'
 alias -s {log,out}='tail -F'
 
-# Use `< file` to quickly view the contents of any file.
+
+# Use `< file` to quickly view the contents of any text file.
 READNULLCMD=$PAGER  # Set the program to use for this.

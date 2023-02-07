@@ -12,27 +12,29 @@
 # Enable the use of Ctrl-Q and Ctrl-S for keyboard shortcuts.
 unsetopt FLOW_CONTROL
 
+# Alt-Q
+# - On the main prompt: Push aside your current command line, so you can type a
+#   new one. The old command line is re-inserted when you press Alt-G or
+#   automatically on the next command line.
+# - On the continuation prompt: Move all entered lines to the main prompt, so
+#   you can edit the previous lines.
+bindkey '^[q' push-line-or-edit
+
 # Alt-H: Get help on your current command.
 () {
   unalias $1 2> /dev/null   # Remove the default.
 
   # Load the more advanced version.
   # -R resolves the function immediately, so we can access the source dir.
-  autoload -UzR $1
+  autoload -RUz $1
 
-  # Load the hash table that maps each function to its source file.
+  # Load $functions_source, an associative array (a.k.a. dictionary, hash table
+  # or map) that maps each function to its source file.
   zmodload -F zsh/parameter p:functions_source
 
   # Lazy-load all the run-help-* helper functions from the same dir.
   autoload -Uz $functions_source[$1]-*~*.zwc  # Exclude .zwc files.
 } run-help
-
-# Alt-Q
-# - On the main prompt: Push aside your current command line  so you can type a
-#   new one. The old command line is restored when you press Alt-G or once
-#   you've accepted the new command line.
-# - On the continuation prompt: Return to the main prompt.
-bindkey '^[q' push-line-or-edit
 
 # Alt-V: Show the next key combo's terminal code and state what it does.
 bindkey '^[v' describe-key-briefly
@@ -46,7 +48,13 @@ bindkey '^[w' where-is
   bindkey '^[S' $1  # Bind Alt-Shift-S to the widget below.
   zle -N $1         # Create a widget that calls the function below.
   $1() {            # Create the function.
-    [[ -z $BUFFER ]] && zle .up-history
-    LBUFFER="sudo $LBUFFER"   # Use $LBUFFER to preserve cursor position.
+    # If the command line is empty or just whitespace, then first load the
+    # previous line.
+    [[ $BUFFER == [[:space:]]# ]] &&
+        zle .up-history
+
+    # $LBUFFER is the part of the command line that's left of the cursor. This
+    # way, we preserve the cursor's position.
+    LBUFFER="sudo $LBUFFER"
   }
 } .sudo

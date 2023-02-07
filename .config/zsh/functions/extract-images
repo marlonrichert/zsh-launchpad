@@ -12,45 +12,63 @@
 # else than an integer (called the exit status), where 0 means success and
 # other values mean different kinds of failure.
 # For other return values, the convention is to use $REPLY or $reply.
-# To return a single value, assign it to the $REPLY scalar.
-# To return multiple values, assign them to $reply array.
-# A functions needs to only _assign_ these variables; declaring them and
-# defining their scope is the caller's responsibility.
+# To return a single string, integer or float, assign it to $REPLY.
+# To return an (associative) array of strings, assign it to $reply.
+# A function should only _assign_ one or both of these variables; declaring
+# these and defining their scope is the caller's responsibility.
+# Alternatively, for more sophistication, you can allow the caller to specify
+# the names of one or more variables and assign your return values to those.
 
 
 # `emulate zsh` resets script-relevant options to default zsh.
 # `-L` makes this effect local to this function and its descendants.
-# `-o extendedglob` sets the shell option EXTENDED_GLOB. This gives us access
-# to additional pattern matching constructs needed below.
-emulate -L zsh -o extendedglob
+# `-o ...` sets a shell option.
+# https://zsh.sourceforge.io/Doc/Release/Invocation.html#Invocation
+emulate -L zsh -o EXTENDED_GLOB
+# EXTENDED_GLOB gives us access to additional pattern matching constructs needed
+# below.
 
 # Note: `emulate bash` does not work as expected, because `emulate` does not
-# know 'bash'. Instead, because 'bash' end in 'sh', it will activate `sh`
-# emulation instead! If you need `bash` compatibility, try `emulate ksh`.
+# know 'bash'. It will activate `sh` emulation instead, because 'bash' end in
+# 'sh'! If you need `bash` compatibility, try `emulate ksh`.
 
 # Declare which field separators to use for ${=...}, below.
 # +h preserves the "specialness" of $IFS for our local version of it.
+# https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Used-By-The-Shell
+# https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html#index-typeset
 local +h IFS='<>"()'
 
 # < $1 redirects the contents of file $1 to standard output.
-# $( ... ) captures the standard output in a string.
+# $( ... ) captures standard output in a string.
 # "..." ensures all whitespace inside, incl. newlines, is kept as is.
 # ${=...} splits the string on $IFS.
 # reply=( ... ) places the resulting strings into array $reply.
 reply=( ${="$( < $1 )"} )
 
-# [@] For each string, (M) keep ## only the longest substring that starts at
-# the beginning of the string and `*.(gif|jpg|png|svg)` ends with .gif, .jpg,
-# .png or .svg. If there is no such substring, discard the entire string (since
-# we did not wrap the expression in "double quotes").
-# (M) stands for "Match".
+#                  [@]:  For each string,
+#                  (M):  keep the longest substring ("match") that
+#                   ##:  starts at the beginning of the string and
+#  *.(gif|jpg|png|svg):  ends with .gif, .jpg, .png or .svg.
+# If there is no such substring, discard the entire string (since we did not
+# wrap the expression in "double quotes").
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Parameter-Expansion
 reply=( ${(M)reply[@]##*.(gif|jpg|png|svg)} )
 
-# [@] For each string, remove ` #` all spaces ## from the beginning of the
-# string. Then, (u) discard all duplicates and (i) sort case-insensitively.
-# (u) stands for "unique". (i) stands for "insensitive".
-reply=( ${(ui)reply[@]## #} )
+#          [@]:  For each string,
+#           ##:  remove, from the beginning of the string,
+# [[:blank:]]#:  all spaces and tabs, if any.
+#                Then, in the resulting array of strings,
+#          (u):  discard all duplicate strings ("unique") and
+#          (i):  sort case-insensitively.
+reply=( ${(ui)reply[@]##[[:blank:]]#} )
 
-# Return 0 (true/success) if $reply is not empty.
-# A function always returns the same exit status as its last command.
+# Return 0 (success) if $reply contains any elements.
+# Otherwise, return 1 (failure).
 (( $#reply ))
+
+# (( ... )) creates an arithmetic expression.
+# If an arithmetic expression evaluates to 0 (false), it returns 1 (failure).
+# If it evaluates to any other value (true), it returns 0 (success).
+# https://zsh.sourceforge.io/Doc/Release/Arithmetic-Evaluation.html
+
+# A function always returns the same exit status as its last expression.
