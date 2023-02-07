@@ -6,17 +6,35 @@
 # Always set these first, so history is preserved, no matter what happens.
 #
 
+# Enable additional glob operators. (Globbing = pattern matching)
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Filename-Generation
+setopt EXTENDED_GLOB
+
 # Tell zsh where to store history.
 # $VENDOR and $OSTYPE let us check what kind of machine we're on.
 if [[ $VENDOR == apple ]]; then
   # On macOS, store it in iCloud, so it syncs across multiple Macs.
   HISTFILE=~/Library/Mobile\ Documents/com\~apple\~CloudDocs/zsh_history
+
+  # Sometimes (probably due to concurrency issues), when the histfile is kept in
+  # iCloud, it is empty when Zsh starts up. However, there should always be a
+  # backup file we can copy.
+
+  # Move the largest "$HISTFILE <number>" file to $HISTFILE.
+  # \ escapes/quotes the space behind it.
+  # (O):  Sort descending.
+  # (OL): Sort by size, descending.
+  local -a files=( $HISTFILE(|\ <->)(OL) )
+  [[ -r $files[1] ]] &&
+      mv $files[1] $HISTFILE
 else
+  # := assigns the variable and then substitutes the expression with its value.
   HISTFILE=${XDG_DATA_HOME:=~/.local/share}/zsh/history
 fi
 
 # Just in case: If the parent directory doesn't exist, create it.
-[[ -d $HISTFILE:h ]] || mkdir -p $HISTFILE:h
+[[ -d $HISTFILE:h ]] ||
+    mkdir -p $HISTFILE:h
 
 # Max number of entries to keep in history file.
 SAVEHIST=$(( 100 * 1000 ))      # Use multiplication for readability.
