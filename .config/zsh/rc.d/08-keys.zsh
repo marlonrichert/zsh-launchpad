@@ -37,6 +37,10 @@ bindkey '^[q' push-line-or-edit
 # Alt-V: Show the next key combo's terminal code and state what it does.
 bindkey '^[v' describe-key-briefly
 
+# Alt-W: Type a widget name and press Enter to see the keys bound to it.
+# Type part of a widget name and press Enter for autocompletion.
+bindkey '^[w' where-is
+
 # Alt-Shift-S: Prefix the current or previous command line with `sudo`.
 () {
   bindkey '^[S' $1  # Bind Alt-Shift-S to the widget below.
