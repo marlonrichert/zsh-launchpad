@@ -12,9 +12,10 @@ setopt EXTENDED_GLOB
 
 # Tell zsh where to store history.
 # $VENDOR and $OSTYPE let us check what kind of machine we're on.
-if [[ $VENDOR == apple ]]; then
-  # On macOS, store it in iCloud, so it syncs across multiple Macs.
-  HISTFILE=~/Library/Mobile\ Documents/com\~apple\~CloudDocs/zsh_history
+local icloud=~/Library/Mobile\ Documents/com\~apple\~CloudDocs
+if [[ -d $icloud && $VENDOR == apple ]]; then
+  # If using iCloud on macOS, store it there, so it syncs across multiple Macs.
+  HISTFILE=$icloud/zsh_history
 
   # Sometimes (probably due to concurrency issues), when the histfile is kept in
   # iCloud, it is empty when Zsh starts up. However, there should always be a
