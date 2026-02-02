@@ -4,6 +4,14 @@
 # Environment variables
 #
 
+# Install Homebrew if it's not installed. See https://brew.sh for more info.
+# Need to do this before using $HOMEBREW_PREFIX.
+command -v brew > /dev/null ||
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Initialize Homebrew environment variables.
+eval "$( brew shellenv )"
+
 # -U ensures each entry in these is unique (that is, discards duplicates).
 export -U PATH path FPATH fpath MANPATH manpath
 export -UT INFOPATH infopath  # -T creates a "tied" pair; see below.
@@ -17,11 +25,6 @@ path=(
     ~/.local/bin
     $path
 )
-
-# Install Homebrew if it's not installed. See https://brew.sh for more info.
-# Need to do this before using $HOMEBREW_PREFIX.
-command -v brew > /dev/null ||
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # In order to be able to `autoload` a function for use on the command line, it
 # either needs to be in your $fpath or you need to autoload by absolute path.
@@ -50,7 +53,7 @@ export EDITOR=nano
 [[ ${${:-=nano}:A} == ${${:-=pico}:A} ]] &&
     brew install --formula nano
 
-# Set the default command to use for launching a text editor with a GUI; not
-# necessarily inside the terminal. Setting it here to Visual Studio Code, which
-# require that you installed the `code` command from there.
+# Set the default command to use for launching a text editor with a GUI (which
+# does not need to run inside the terminal). Setting it here to Visual Studio
+# Code, which requires that you installed the `code` command from there.
 export VISUAL=code
