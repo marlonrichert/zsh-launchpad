@@ -27,7 +27,8 @@ if [[ -d $icloud && $VENDOR == apple ]]; then
     # \ escapes/quotes the space behind it.
     # (O):  Sort descending.
     # (OL): Sort by size, descending.
-    local -a files=( $HISTFILE(|\ <->)(OL) )
+    # (N):  If no files match, then don't return an error.
+    local -a files=( $HISTFILE(|\ <->)(OLN) )
     # -n: True if the string is not empty.
     [[ -n $files[1] ]] &&
         fc -RI $files[1]
