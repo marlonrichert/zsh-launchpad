@@ -50,8 +50,10 @@ export PAGER=less
 export EDITOR=nano
 
 # If `nano` is just a symlink to `pico`, then install Nano.
-[[ ${${:-=nano}:A} == ${${:-=pico}:A} ]] &&
-    brew install --formula nano
+if [[ ${${:-=nano}:A} == ${${:-=pico}:A} ]]; then
+    brew list --versions nano >/dev/null 2>&1 ||
+        brew install --formula nano
+fi
 
 # Set the default command to use for launching a text editor with a GUI (which
 # does not need to run inside the terminal). Setting it here to Visual Studio
