@@ -9,7 +9,6 @@ local -a plugins=(
     marlonrichert/zsh-autocomplete      # Real-time type-ahead completion
     marlonrichert/zsh-edit              # Better keyboard shortcuts
     marlonrichert/zsh-hist              # Edit history from the command line.
-    marlonrichert/zcolors               # Colors for completions and Git
     zsh-users/zsh-autosuggestions       # Inline suggestions
     zsh-users/zsh-syntax-highlighting   # Command-line syntax highlighting
 )
@@ -37,4 +36,4 @@ done
 
 # `znap eval <name> '<command>'` is like `eval "$( <command> )"` but with
 # caching and compilation of <command>'s output, making it ~10 times faster.
-znap eval zcolors zcolors   # Extra init code needed for zcolors.
+znap eval zcolors '~[zcolors]/zcolors'  # Colors for completions, git, less and grep
